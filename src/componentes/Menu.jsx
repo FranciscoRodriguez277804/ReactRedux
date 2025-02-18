@@ -12,6 +12,8 @@ const Menu = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    const usuario = localStorage.getItem("usuario")
+
     const handleLogout = () => {
         localStorage.getItem("apiKey");
         localStorage.removeItem("apiKey");
@@ -25,7 +27,7 @@ const Menu = () => {
         <>
             <Navbar bg="primary" data-bs-theme="dark">
                 <Container>
-                    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+                    <Navbar.Brand href="#home">Hola {usuario}</Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#features">Features</Nav.Link>

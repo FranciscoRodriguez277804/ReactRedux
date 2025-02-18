@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Menu from "./Menu.jsx";
-import  actividadesData  from "../service/apiService.js"; //todo cambiar por api 
+import {obtenerActividades}  from "../service/apiService.js";
 import { agregarRegistro } from "../service/apiService.js";
 import Filtrado from "./Filtrado.jsx";
 import InformeTiempo from "./InformeTiempo.jsx";
 
+
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [actividades, setActividades] = useState(actividadesData.actividades);
+  const [actividades, setActividades] = useState([]);
 
   const [actividadSeleccionada, setActividadSeleccionada] = useState("");
   const [tiempoIngresado, setTiempoIngresado] = useState("");
@@ -20,7 +21,20 @@ const Dashboard = () => {
     comprobarLogin();
   }, []);
 
+    useEffect(() => {
+    const cargarActividades = async () => {
+      try {
+        const response = await obtenerActividades(); // Llamar a la API
+        if (response.codigo === 200) {
+          setActividades(response.actividades); // Guardar las actividades en el estado
+        }
+      } catch (error) {
+        console.error("Error al obtener actividades:", error);
+      }
+    };
 
+    cargarActividades();
+  }, []); 
 
   const comprobarLogin = () => {
     let localStorage = window.localStorage;
@@ -39,12 +53,12 @@ const Dashboard = () => {
 
         const response = await agregarRegistro(idActividad, tiempo, fecha);
         console.log("Registro exitoso:", response);
+        location.reload();
+
     } catch (error) {
         console.error("Error al registrar actividad:", error);
     }
 };
-
-
   return (
     <Container>
       <Menu />

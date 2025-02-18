@@ -45,6 +45,7 @@ const Login = ({ setIsRegistering, setIsLoggedIn }) => {
       let localStorage = window.localStorage;
       localStorage.setItem("apiKey", datos.apiKey);
       localStorage.setItem("id", datos.id);
+      localStorage.setItem("usuario",usuario)
       console.log("✅ Login exitoso!");
       dispatch(loginSuccess({ usuario, password, token: datos.token })); // Llama a la acción loginSuccess
       setIsLoggedIn(true); // Cambia el estado de isLoggedIn a true
