@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Button, Form } from "react-bootstrap";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { cargarRegistros, eliminarRegistroAsync, agregarRegistroAsync } from "../redux/registrosSlice.js";
+import { cargarRegistros, eliminarRegistroAsync, agregarRegistroAsync } from "../redux/registrosSlice";
 
 const Filtrado = () => {
   const dispatch = useDispatch();
   const registros = useSelector((state) => state.registros.lista);
   const [filtro, setFiltro] = useState("ultimaSemana");
+  
 
   useEffect(() => {
     dispatch(cargarRegistros());
@@ -35,15 +36,6 @@ const Filtrado = () => {
     dispatch(eliminarRegistroAsync(idRegistro));
   };
 
-  // const handleAgregar = () => {
-  //   const nuevoRegistro = {
-  //     idActividad: "Nueva actividad",
-  //     tiempo: 30,
-  //     fecha: moment().format("YYYY-MM-DD"),
-  //   };
-
-  //   dispatch(agregarRegistroAsync(nuevoRegistro));
-  // };
 
   const registrosFiltrados = filtrarPorFecha(registros, filtro);
 
@@ -80,7 +72,6 @@ const Filtrado = () => {
                 <p>No hay registros disponibles.</p>
               )}
             </ul>
-            {/* <Button className="mt-3" onClick={handleAgregar}>Agregar Registro</Button> */}
           </Card.Body>
         </Card>
       </Col>
