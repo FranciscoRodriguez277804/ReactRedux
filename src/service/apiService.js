@@ -1,7 +1,7 @@
 import { data, redirect } from "react-router-dom";
 
 const url = "https://movetrack.develotion.com/";
-const urlImagenes = "https://movetrack.develotion.com/imgs/";
+
 
 export const loginApi = async (data) => {
     const myHeaders = new Headers();

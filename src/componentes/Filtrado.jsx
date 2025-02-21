@@ -4,11 +4,12 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { cargarRegistros, eliminarRegistroAsync, agregarRegistroAsync } from "../redux/registrosSlice";
 
+
 const Filtrado = () => {
   const dispatch = useDispatch();
   const registros = useSelector((state) => state.registros.lista);
   const [filtro, setFiltro] = useState("ultimaSemana");
-  
+
 
   useEffect(() => {
     dispatch(cargarRegistros());
@@ -56,7 +57,7 @@ const Filtrado = () => {
             <ul className="mt-3">
               {registrosFiltrados.length > 0 ? (
                 registrosFiltrados.map((registro) => (
-                  <li key={registro.id}>
+                    <li key={registro.id}>
                     {registro.idActividad} - {registro.tiempo} min - {registro.fecha}
                     <Button
                       variant="danger"

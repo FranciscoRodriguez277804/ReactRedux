@@ -53,7 +53,6 @@ const InformeTiempo = () => {
           </Card>
         </Col>
       </Row>
-
     </>
   )
 }

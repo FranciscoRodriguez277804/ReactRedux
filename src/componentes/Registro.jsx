@@ -93,7 +93,7 @@ const Registro = ({ setIsRegistering , setIsLoggedIn}) => {
                     </Form>
                     <p className="mt-3 text-center">
                         <Button variant="link" onClick={() => setIsRegistering(false)}>¿Ya tienes cuenta? Inicia sesión</Button>
-                    </p><object data="" type=""></object>
+                    </p>
                 </Card.Body>
             </Card>
         </Container>
