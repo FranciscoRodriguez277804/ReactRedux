@@ -12,7 +12,7 @@ const registrosSlice = createSlice({
     setRegistros: (state, action) => {
       state.lista = action.payload;
     },
-    agregarRegistroState: (state, action) => { // 🔹 Renombrado para evitar conflicto
+    agregarRegistroState: (state, action) => { 
       state.lista.push(action.payload);
     },
     eliminarRegistro: (state, action) => {
@@ -28,6 +28,7 @@ export const { setRegistros, agregarRegistroState, eliminarRegistro } = registro
 export const cargarRegistros = () => async (dispatch) => {
   try {
     const data = await obtenerRegistros();
+    console.log(data)
     if (data.codigo === 200) {
       dispatch(setRegistros(data.registros));
     } else {

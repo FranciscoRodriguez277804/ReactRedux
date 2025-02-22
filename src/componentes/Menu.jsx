@@ -19,18 +19,23 @@ const Menu = () => {
         localStorage.removeItem("apiKey");
         localStorage.clear();
 
-
         navigate("/Contenido");
     }
+
+     const handleGrafica = () => {
+       
+        navigate("/MiComponente")
+      
+    }
+    
 
     return (
         <>
             <Navbar bg="primary" data-bs-theme="dark">
                 <Container>
-                    <Navbar.Brand href="#home">Hola {usuario}</Navbar.Brand>
+                    <Navbar.Brand>Hola {usuario}</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#features">Features</Nav.Link>
+                        <Nav.Link onClick={handleGrafica}>Grafica</Nav.Link>
                         <Nav.Link onClick={handleLogout}>Cerrar Seccion</Nav.Link>
                     </Nav>
                 </Container>
