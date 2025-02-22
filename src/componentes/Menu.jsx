@@ -35,7 +35,8 @@ const Menu = () => {
                 <Container>
                     <Navbar.Brand>Hola {usuario}</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Nav.Link onClick={handleGrafica}>Grafica</Nav.Link>
+                        <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
+                        <Nav.Link as={NavLink} to="/MiComponente">Grafica</Nav.Link>
                         <Nav.Link onClick={handleLogout}>Cerrar Seccion</Nav.Link>
                     </Nav>
                 </Container>

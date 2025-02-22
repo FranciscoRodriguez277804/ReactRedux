@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { obtenerRegistros, borrarRegistro, agregarRegistro as agregarRegistroAPI } from "../service/apiService";
+import { obtenerRegistros, borrarRegistro, agregarRegistro as agregarRegistroAPI , obtenerActividades } from "../service/apiService";
 
 const registrosSlice = createSlice({
   name: "registros",
   initialState: {
     lista: [],
+    actividades: [],
     estado: "idle",
     error: null,
   },
@@ -18,11 +19,14 @@ const registrosSlice = createSlice({
     eliminarRegistro: (state, action) => {
       state.lista = state.lista.filter((registro) => registro.id !== action.payload);
     },
+    todasLasActividades: (state, action) => {
+      state.actividades = action.payload;
+    },
   },
 });
 
 // Exportar acciones
-export const { setRegistros, agregarRegistroState, eliminarRegistro } = registrosSlice.actions;
+export const { setRegistros, agregarRegistroState, eliminarRegistro, todasLasActividades } = registrosSlice.actions;
 
 // Función para cargar registros desde la API
 export const cargarRegistros = () => async (dispatch) => {
@@ -67,5 +71,21 @@ export const eliminarRegistroAsync = (idRegistro) => async (dispatch) => {
   }
 };
 
+export const cargarActividades = () => async (dispatch) => {
+  try {
+    const data = await obtenerActividades();
+    console.log(data)
+    if (data.codigo === 200) {
+      dispatch(todasLasActividades(data.actividades));
+    } else {
+      console.error("Error al cargar actividades:", data.mensaje);
+    }
+  } catch (error) {
+    console.error("Error en la API:", error);
+  }
+};
+
+
 // Exportar el reducer
 export default registrosSlice.reducer;
+
