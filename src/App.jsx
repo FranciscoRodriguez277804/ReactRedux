@@ -5,6 +5,8 @@ import Contenido from './componentes/Contenido';
 import Dashboard from './componentes/Dashboard';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MiComponente from './componentes/MiComponente';
+import GraficaMinutosPorActividad from './componentes/GraficaMinutosPorActividad';
+import Grafica from './componentes/Grafica'; 
 
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/contenido" element={<Contenido />} />
         <Route path="/MiComponente" element={<MiComponente />} />
+        <Route path="/GraficaMinutosPorActividad" element={<GraficaMinutosPorActividad />} />
+        <Route path="/Grafica" element={<Grafica />} />
       </Routes>
     </BrowserRouter>
   );
