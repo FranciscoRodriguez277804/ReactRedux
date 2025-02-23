@@ -34,9 +34,37 @@ export const loginApi = async (data) => {
         });
 };
 
+export const registrarUsuario = async (data) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+        redirect: 'follow'
+    };
+
+    return fetch(`${url}usuarios.php`, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                return Promise.reject(new Error('Error en la petición'));
+            }
+            return response.json();
+        })
+        .then(result => {
+            console.log('Usuario registrado:', result);
+            return result;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            throw new Error(error.message || "Hubo un error al registrar el usuario");
+        });
+}
+
 export const agregarRegistro = async (idActividad, tiempo, fecha) => {
-    const apikey = localStorage.getItem("apiKey"); 
-    const idUsuario = localStorage.getItem("id");   
+    const apikey = localStorage.getItem("apiKey");
+    const idUsuario = localStorage.getItem("id");
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -97,14 +125,14 @@ export const obtenerActividades = async () => {
         }
 
         const result = await response.json();
-        console.log("Registros obtenidos:", result); 
+        console.log("Registros obtenidos:", result);
 
-        return result; 
+        return result;
     } catch (error) {
         console.error("Error en la petición:", error);
-        return null; 
+        return null;
     }
-    
+
 };
 
 export const obtenerRegistros = async () => {
@@ -129,16 +157,16 @@ export const obtenerRegistros = async () => {
         }
 
         const result = await response.json();
-        console.log("Registros obtenidos:", result); 
+        console.log("Registros obtenidos:", result);
 
-        return result; 
+        return result;
     } catch (error) {
         console.error("Error en la petición:", error);
-        return null; 
+        return null;
     }
 
 
-    
+
 
 
 

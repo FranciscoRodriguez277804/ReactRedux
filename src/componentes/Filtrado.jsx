@@ -3,6 +3,7 @@ import { Row, Col, Card, Button, Form } from "react-bootstrap";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { cargarRegistros, eliminarRegistroAsync, agregarRegistroAsync } from "../redux/registrosSlice";
+import ListGroup from 'react-bootstrap/ListGroup';
 
 
 const Filtrado = () => {
@@ -54,25 +55,24 @@ const Filtrado = () => {
                 <option value="todo">Todo el histórico</option>
               </Form.Control>
             </Form.Group>
-            <ul className="mt-3">
+            <ListGroup className="mt-3">
               {registrosFiltrados.length > 0 ? (
                 registrosFiltrados.map((registro) => (
-                    <li key={registro.id}>
-                    {registro.idActividad} - {registro.tiempo} min - {registro.fecha}
+                  <ListGroup.Item key={registro.id} className="d-flex justify-content-between align-items-center">
+                    <span>{registro.idActividad} - {registro.tiempo} min - {registro.fecha}</span>
                     <Button
                       variant="danger"
                       size="sm"
-                      className="ms-2"
                       onClick={() => handleEliminar(registro.id)}
                     >
                       Eliminar
                     </Button>
-                  </li>
+                  </ListGroup.Item>
                 ))
               ) : (
-                <p>No hay registros disponibles.</p>
+                <ListGroup.Item>No hay registros disponibles.</ListGroup.Item>
               )}
-            </ul>
+            </ListGroup>
           </Card.Body>
         </Card>
       </Col>

@@ -6,6 +6,7 @@ import Menu from "./Menu";
 import { cargarRegistros, cargarActividades } from '../redux/registrosSlice'
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { useAuth } from "../hooks/useAuth";
+import moment from "moment";
 
 
 const MiComponente = () => {
@@ -15,32 +16,34 @@ const MiComponente = () => {
     const { comprobarLogin } = useAuth();
 
 
+    // Obtener registros y actividades desde Redux
     const registros = useSelector((state) => state.registros.lista);
     const actividades = useSelector((state) => state.registros.actividades);
 
-    
-    const registrosFiltrados = registros.filter(registro => registro.tiempo > 0);
+    // 1️⃣ Obtener la fecha de hace 7 días
+    const fechaLimite = moment().subtract(7, "days").startOf("day");
 
-   
-    const actividadesTotales = registrosFiltrados.reduce((acc, registro) => {
-        const { idActividad, tiempo } = registro;
+    // 2️⃣ Filtrar registros de la última semana y que tengan tiempo > 0
+    const registrosFiltrados = registros.filter(registro => {
+        const fechaRegistro = moment(registro.fecha, "YYYY-MM-DD");
+        return fechaRegistro.isSameOrAfter(fechaLimite) && registro.tiempo > 0;
+    });
 
-        if (!acc[idActividad]) {
-            acc[idActividad] = { tiempoTotal: 0 };
-        }
+    // 3️⃣ Crear un array con los últimos 7 días asegurando que todos estén presentes
+    const ultimos7Dias = [];
+    for (let i = 0; i < 7; i++) {
+        ultimos7Dias.push(moment().subtract(i, "days").format("YYYY-MM-DD"));
+    }
+    ultimos7Dias.reverse(); // Ordenamos de menor a mayor
 
-        acc[idActividad].tiempoTotal += tiempo;
-        return acc;
-    }, {});
+    // 4️⃣ Agrupar por fecha y sumar tiempos
+    const tiemposPorDia = Array(7).fill(0); // Iniciar un array con 7 ceros
 
-    
-    const nombreActividades = [];
-    const tiempos = [];
-
-    actividades.forEach(actividad => {
-        if (actividadesTotales[actividad.id]) {
-            nombreActividades.push(actividad.nombre);
-            tiempos.push(actividadesTotales[actividad.id].tiempoTotal);
+    registrosFiltrados.forEach(registro => {
+        const fechaFormateada = moment(registro.fecha, "YYYY-MM-DD").format("YYYY-MM-DD");
+        const index = ultimos7Dias.indexOf(fechaFormateada);
+        if (index !== -1) {
+            tiemposPorDia[index] += registro.tiempo;
         }
     });
 
@@ -61,10 +64,9 @@ const MiComponente = () => {
 
             <>
                 <Menu />
-                <Grafica etiquetas={nombreActividades} datos={tiempos}></Grafica>
+                <Grafica etiquetas={ultimos7Dias} datos={tiemposPorDia} nombreGrafica="Tiempo total por día" nombreDatos="Gráfico de minutos de los últimos siete días:" ></Grafica>
 
             </>
-
 
 
         </Container>

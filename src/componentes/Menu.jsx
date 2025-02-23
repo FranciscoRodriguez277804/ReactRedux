@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { logout } from '../redux/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate, NavLink, Navigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const Menu = () => {
@@ -21,14 +22,7 @@ const Menu = () => {
 
         navigate("/Contenido");
     }
-
-     const handleGrafica = () => {
-       
-        navigate("/MiComponente")
-      
-    }
     
-
     return (
         <>
             <Navbar bg="primary" data-bs-theme="dark">

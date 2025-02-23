@@ -5,9 +5,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
+import {registrarUsuario}  from "../service/apiService.js"
 
-const Registro = ({ setIsRegistering , setIsLoggedIn}) => {
-    
+const Registro = ({ setIsRegistering, setIsLoggedIn }) => {
+
     const dispatch = useDispatch();
 
     const [usuario, setUsuario] = useState("");
@@ -30,27 +31,21 @@ const Registro = ({ setIsRegistering , setIsLoggedIn}) => {
         const data = { usuario, password, pais };
 
         try {
-            const response = await fetch("https://movetrack.develotion.com/usuarios.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+            const datos =  await registrarUsuario(data);
+            console.log('datos.apiKey', datos.apiKey);
+            let localStorage = window.localStorage;
+            localStorage.setItem("apiKey", datos.apiKey);
+            localStorage.setItem("id", datos.id);
+            localStorage.setItem("usuario", usuario)
+            console.log("✅ Login exitoso!");
+            dispatch(loginSuccess({ usuario, password, token: datos.token })); // Llama a la acción loginSuccess
+            setIsLoggedIn(true); // Cambia el estado de isLoggedIn a true
+            navigate("/dashboard");
 
-            const result = await response.json();
-            console.log(result);
-
-            if (response.ok) {
-                console.log("✅ Registro exitoso!");
-                // Auto login después del registro
-                dispatch(loginSuccess({ usuario, token: result.token }));
-                setIsLoggedIn(true);
-            } else {
-                console.log("❌" + result.message);
-            }
         } catch (error) {
-            console.log("❌ Error en la conexión");
+            console.log("❌ Error en la conexión", error);
+            setMensajeError(error.message)
+
         }
     };
 
