@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Container, Nav, Navbar, Toast, Button } from "react-bootstrap";
 import { useNavigate, NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; 
+import { resetearEstado } from '../redux/registrosSlice';
+import { useDispatch } from "react-redux";
 
 const Menu = () => {
   const navigate = useNavigate();
   const usuario = localStorage.getItem("usuario");
   const [showToast, setShowToast] = useState(false);
+  const dispatch = useDispatch();
+ 
 
   const handleLogout = () => {
     setShowToast(true); // Muestra el Toast cuando se hace clic en "Cerrar sesión"
@@ -17,6 +21,7 @@ const Menu = () => {
     localStorage.removeItem("usuario"); // Elimina el usuario
     localStorage.removeItem("idUsuario"); // Elimina el id del usuario
     setShowToast(false); // Cierra el Toast
+    dispatch(resetearEstado());
     navigate("/Contenido"); // Redirige al usuario
   };
 
@@ -31,7 +36,7 @@ const Menu = () => {
           <Navbar.Brand>Hola {usuario}</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link as={NavLink} to="/dashboard">Dashboard</Nav.Link>
-            <Nav.Link as={NavLink} to="/MiComponente">Gráficas</Nav.Link>
+            <Nav.Link as={NavLink} to="/MiComponente">Análisis</Nav.Link>
             <Nav.Link onClick={handleLogout}>Cerrar sesión</Nav.Link>
           </Nav>
         </Container>

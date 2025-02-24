@@ -29,7 +29,7 @@ const Dashboard = () => {
           setActividades(response.actividades); // Guardar las actividades en el estado
         }
       } catch (error) {
-        console.error("Error al obtener actividades:", error);
+        ;
       }
     };
 
@@ -52,11 +52,11 @@ const Dashboard = () => {
         const fecha = fechaSeleccionada;
 
         const response = await agregarRegistro(idActividad, tiempo, fecha);
-        console.log("Registro exitoso:", response);
+        
         location.reload();
 
     } catch (error) {
-        console.error("Error al registrar actividad:", error);
+       
     }
 };
   return (

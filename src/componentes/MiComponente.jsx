@@ -8,6 +8,7 @@ import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { useAuth } from "../hooks/useAuth";
 import moment from "moment";
 import GraficaMinutosPorActividad from "./GraficaMinutosPorActividad";
+import EvolucionPersonal from "./EvolucionPersonal";
 
 
 const MiComponente = () => {
@@ -101,7 +102,7 @@ const MiComponente = () => {
                 {mostrarGrafica ? <Grafica etiquetas={ultimos7Dias} datos={tiemposPorDia} nombreGrafica="Tiempo total por día" nombreDatos="Gráfico de minutos de los últimos siete días:" ></Grafica> :
                     <GraficaMinutosPorActividad etiquetas={nombreActividades} datos={cantidadSesiones} nombreGrafica="Tiempo total por actividad" nombreDatos="Gráfico de minutos por actividad:" ></GraficaMinutosPorActividad>}
                 {mostrarGrafica ? <Button variant="link" onClick={() => setmostrarGrafica(false)}>Ir a Gráfico de minutos por actividad:</Button> : <Button variant="link" onClick={() => setmostrarGrafica(true)}>Gráfico de minutos de los últimos siete días:</Button>}
-
+                <EvolucionPersonal/>
             </>
 
 

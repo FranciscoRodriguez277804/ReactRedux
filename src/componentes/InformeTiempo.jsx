@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
-import { cargarRegistros } from '../redux/registrosSlice';
+import { Row, Col, Card } from "react-bootstrap";
+import { cargarRegistros, actualizarTiempoDiario, actualizarTiempoAyer } from '../redux/registrosSlice';
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
-
-
 
 const InformeTiempo = () => {
-
   const dispatch = useDispatch();
   const registros = useSelector((state) => state.registros.lista);
-  const [tiempoTotal, setTiempoTotal] = useState(0);
-  const [tiempoDiario, setTiempoDiario] = useState(0);
-  const isAuthenticated = localStorage.getItem("apiKey")
+  const tiempoTotal = registros.reduce((acumulador, registro) => acumulador + registro.tiempo, 0); // Calcular el tiempo total
+  const tiempoDiario = useSelector((state) => state.registros.tiempoDiario); // Obtener tiempoDiario global
+  const tiempoAyer = useSelector((state) => state.registros.tiempoAyer); // Obtener tiempoAyer global
+  const isAuthenticated = localStorage.getItem("apiKey");
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -20,37 +17,15 @@ const InformeTiempo = () => {
       dispatch(cargarRegistros());
     } else {
       // Si no está autenticado, restablecer el tiempo total a 0
-      setTiempoTotal(0);
     }
   }, [dispatch, isAuthenticated]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      // Calcular el tiempo total solo si el usuario está autenticado
-      const total = registros.reduce((acumulador, registro) => acumulador + registro.tiempo, 0);
-      setTiempoTotal(total); // Actualizar el estado con el tiempo total
-
-
-
+    if (isAuthenticated && registros.length > 0) {
+      dispatch(actualizarTiempoDiario()); // Actualizar el tiempoDiario en Redux
+      dispatch(actualizarTiempoAyer());   // Actualizar el tiempoAyer en Redux
     }
-  }, [registros, isAuthenticated]); // Se ejecuta cuando 'registros' o 'isAuthenticated' cambian
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      // Filtrar registros que correspondan a la fecha actual
-      const tiempoDiario = registros.reduce((acumulador, registro) => {
-        const fechaRegistro = moment(registro.fecha); // Convertir la fecha del registro
-        const fechaActual = moment().startOf("day"); // Fecha de hoy sin horas
-
-        return fechaRegistro.isSame(fechaActual, "day")
-          ? acumulador + registro.tiempo // Sumar solo si es la fecha actual
-          : acumulador;
-      }, 0);
-
-      setTiempoDiario(tiempoDiario); // Actualizar el estado con el tiempo total filtrado
-    }
-  }, [registros, isAuthenticated]);
-
+  }, [dispatch, registros, isAuthenticated]);
 
   return (
     <>
@@ -74,7 +49,7 @@ const InformeTiempo = () => {
         </Col>
       </Row>
     </>
-  )
-}
+  );
+};
 
-export default InformeTiempo
+export default InformeTiempo;

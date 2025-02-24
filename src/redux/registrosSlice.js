@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { obtenerRegistros, borrarRegistro, agregarRegistro as agregarRegistroAPI , obtenerActividades } from "../service/apiService";
+import moment from "moment";
 
 const registrosSlice = createSlice({
   name: "registros",
@@ -8,6 +9,8 @@ const registrosSlice = createSlice({
     actividades: [],
     estado: "idle",
     error: null,
+    tiempoDiario: 0,
+    tiempoAyer: 0, 
   },
   reducers: {
     setRegistros: (state, action) => {
@@ -22,11 +25,36 @@ const registrosSlice = createSlice({
     todasLasActividades: (state, action) => {
       state.actividades = action.payload;
     },
+    actualizarTiempoDiario: (state) => {
+      state.tiempoDiario = state.lista.reduce((acumulador, registro) => {
+        const fechaRegistro = moment(registro.fecha);
+        const fechaActual = moment().startOf("day");
+
+        return fechaRegistro.isSame(fechaActual, "day")
+          ? acumulador + registro.tiempo
+          : acumulador;
+      }, 0);
+    },
+    actualizarTiempoAyer: (state) => {
+      state.tiempoAyer = state.lista.reduce((acumulador, registro) => {
+        const fechaRegistro = moment(registro.fecha);
+        const fechaAyer = moment().subtract(1, "days").startOf("day"); // Fecha de ayer
+
+        return fechaRegistro.isSame(fechaAyer, "day")
+          ? acumulador + registro.tiempo
+          : acumulador;
+      }, 0);
+    },
+    resetearEstado: (state) => {
+      state.lista = [];
+      state.tiempoDiario = 0;
+      state.tiempoAyer = 0;
+    },
   },
 });
 
 // Exportar acciones
-export const { setRegistros, agregarRegistroState, eliminarRegistro, todasLasActividades } = registrosSlice.actions;
+export const { setRegistros, agregarRegistroState, eliminarRegistro, todasLasActividades , actualizarTiempoDiario , actualizarTiempoAyer , resetearEstado } = registrosSlice.actions;
 
 // Función para cargar registros desde la API
 export const cargarRegistros = () => async (dispatch) => {
