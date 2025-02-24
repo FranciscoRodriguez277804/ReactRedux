@@ -3,6 +3,7 @@ import { data, redirect } from "react-router-dom";
 const url = "https://movetrack.develotion.com/";
 
 
+
 export const loginApi = async (data) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -165,12 +166,6 @@ export const obtenerRegistros = async () => {
         return null;
     }
 
-
-
-
-
-
-
 };
 
 export const borrarRegistro = async (idRegistro) => {
@@ -190,7 +185,7 @@ export const borrarRegistro = async (idRegistro) => {
     const requestOptions = {
         method: "DELETE",
         headers: myHeaders,
-        redirect: "follow", // 🔥 Añadido según documentación
+        redirect: "follow", 
     };
 
     try {
@@ -200,7 +195,7 @@ export const borrarRegistro = async (idRegistro) => {
             throw new Error(`Error HTTP: ${response.status}`);
         }
 
-        const result = await response.json(); // 🔥 Puede ser JSON o texto plano
+        const result = await response.json();
         console.log("Registro eliminado:", result);
 
         return result;

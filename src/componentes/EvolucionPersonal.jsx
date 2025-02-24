@@ -30,7 +30,7 @@ const EvolucionPersonal = () => {
           <Card.Body>
             <Card.Title>¡Que no decaiga!</Card.Title>
             <Card.Text>
-              No superaste el tiempo de actividades de ayer 😔 
+              No superaste el tiempo de actividades de ayer. 
               Cada esfuerzo suma, aunque hoy haya sido menos tiempo que ayer, sigues avanzando. ¡Tú puedes!
             </Card.Text>
           </Card.Body>
