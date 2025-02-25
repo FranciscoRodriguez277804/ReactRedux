@@ -18,12 +18,10 @@ ChartJS.register(
     Tooltip,
     Legend
 );
-import { useNavigate, NavLink } from "react-router-dom";
+
 
 
 const GraficaMinutosPorActividad = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
-
-    const navigate = useNavigate();
 
 
     const options = {

@@ -4,6 +4,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { cargarRegistros, eliminarRegistroAsync, agregarRegistroAsync , cargarActividades } from "../redux/registrosSlice";
 import ListGroup from 'react-bootstrap/ListGroup';
+import toast from "react-hot-toast";
 
 
 const Filtrado = () => {
@@ -11,8 +12,6 @@ const Filtrado = () => {
   const registros = useSelector((state) => state.registros.lista);
   const [filtro, setFiltro] = useState("ultimaSemana");
   const actividades = useSelector((state) => state.registros.actividades);
-
-
 
   useEffect(() => {
     dispatch(cargarRegistros());
@@ -38,7 +37,9 @@ const Filtrado = () => {
   };
 
   const handleEliminar = (idRegistro) => {
+    toast.success('Actividad eliminada con exito!')
     dispatch(eliminarRegistroAsync(idRegistro));
+    
   };
 
     // Función para obtener la imagen de la actividad

@@ -9,7 +9,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { useNavigate, NavLink } from "react-router-dom";
+
 
 ChartJS.register(
     CategoryScale,
@@ -22,12 +22,7 @@ ChartJS.register(
 
 const Grafica = ({ etiquetas, datos, nombreGrafica, nombreDatos }) => {
     
-    const navigate = useNavigate();
-
-    const handleClick = () => {
-        navigate("/GraficaMinutosPorActividad");
-    }
-
+   
     const options = {
         responsive: true,
         plugins: {

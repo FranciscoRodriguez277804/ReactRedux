@@ -6,24 +6,21 @@ import { useDispatch, useSelector } from "react-redux";
 const InformeTiempo = () => {
   const dispatch = useDispatch();
   const registros = useSelector((state) => state.registros.lista);
-  const tiempoTotal = registros.reduce((acumulador, registro) => acumulador + registro.tiempo, 0); // Calcular el tiempo total
-  const tiempoDiario = useSelector((state) => state.registros.tiempoDiario); // Obtener tiempoDiario global
-  const tiempoAyer = useSelector((state) => state.registros.tiempoAyer); // Obtener tiempoAyer global
+  const tiempoTotal = registros.reduce((acumulador, registro) => acumulador + registro.tiempo, 0); 
+  const tiempoDiario = useSelector((state) => state.registros.tiempoDiario); 
+  const tiempoAyer = useSelector((state) => state.registros.tiempoAyer); 
   const isAuthenticated = localStorage.getItem("apiKey");
 
   useEffect(() => {
     if (isAuthenticated) {
-      // Solo cargar registros si el usuario está autenticado
       dispatch(cargarRegistros());
-    } else {
-      // Si no está autenticado, restablecer el tiempo total a 0
-    }
+    } 
   }, [dispatch, isAuthenticated]);
 
   useEffect(() => {
     if (isAuthenticated && registros.length > 0) {
-      dispatch(actualizarTiempoDiario()); // Actualizar el tiempoDiario en Redux
-      dispatch(actualizarTiempoAyer());   // Actualizar el tiempoAyer en Redux
+      dispatch(actualizarTiempoDiario()); 
+      dispatch(actualizarTiempoAyer());   
     }
   }, [dispatch, registros, isAuthenticated]);
 

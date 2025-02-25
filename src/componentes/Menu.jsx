@@ -4,6 +4,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import { resetearEstado } from '../redux/registrosSlice';
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -13,20 +14,24 @@ const Menu = () => {
  
 
   const handleLogout = () => {
-    setShowToast(true); // Muestra el Toast cuando se hace clic en "Cerrar sesión"
+    setShowToast(true); // Muestra el Toast 
   };
 
   const confirmarCerrarSesion = () => {
-    localStorage.removeItem("apiKey"); // Elimina la sesión
-    localStorage.removeItem("usuario"); // Elimina el usuario
-    localStorage.removeItem("idUsuario"); // Elimina el id del usuario
+
+    localStorage.removeItem("apiKey"); 
+    localStorage.removeItem("usuario"); 
+    localStorage.removeItem("idUsuario"); 
     setShowToast(false); // Cierra el Toast
     dispatch(resetearEstado());
-    navigate("/Contenido"); // Redirige al usuario
+    navigate("/Contenido"); 
+    toast('Cerraste la sesion!', {
+    });
+
   };
 
   const cancelarCerrarSesion = () => {
-    setShowToast(false); // Cierra el Toast si el usuario decide cancelar
+    setShowToast(false); // Cierra el Toast 
   };
 
   return (
@@ -42,7 +47,7 @@ const Menu = () => {
         </Container>
       </Navbar>
 
-      {/* Toast de confirmación */}
+      
       <Toast
         show={showToast}
         onClose={() => setShowToast(false)}
@@ -50,9 +55,9 @@ const Menu = () => {
         autohide
         style={{
             position: "fixed",
-            top: "10px", // Coloca el Toast cerca de la parte superior
-            left: "50%", // Centrado en el eje horizontal
-            transform: "translateX(-50%)", // Ajuste para centrarlo completamente
+            top: "10px",
+            left: "50%", 
+            transform: "translateX(-50%)", 
             zIndex: 1,
         }}
       >

@@ -3,7 +3,6 @@ import { data, redirect } from "react-router-dom";
 const url = "https://movetrack.develotion.com/";
 
 
-
 export const loginApi = async (data) => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -54,11 +53,11 @@ export const registrarUsuario = async (data) => {
             return response.json();
         })
         .then(result => {
-            console.log('Usuario registrado:', result);
+
             return result;
         })
         .catch(error => {
-            console.error('Error:', error);
+
             throw new Error(error.message || "Hubo un error al registrar el usuario");
         });
 }
@@ -94,11 +93,9 @@ export const agregarRegistro = async (idActividad, tiempo, fecha) => {
             return response.json();
         })
         .then(result => {
-            console.log('Registro agregado:', result);
             return result;
         })
         .catch(error => {
-            console.error('Error:', error);
             throw new Error(error.message || "Hubo un error al agregar el registro");
         });
 };
@@ -126,11 +123,11 @@ export const obtenerActividades = async () => {
         }
 
         const result = await response.json();
-        console.log("Registros obtenidos:", result);
+
 
         return result;
     } catch (error) {
-        console.error("Error en la petición:", error);
+
         return null;
     }
 
@@ -158,11 +155,10 @@ export const obtenerRegistros = async () => {
         }
 
         const result = await response.json();
-        console.log("Registros obtenidos:", result);
 
         return result;
     } catch (error) {
-        console.error("Error en la petición:", error);
+       
         return null;
     }
 
@@ -173,7 +169,7 @@ export const borrarRegistro = async (idRegistro) => {
     const idUsuario = localStorage.getItem("id");
 
     if (!apikey || !idUsuario) {
-        console.error("Error: No se encontró la API Key o el ID del usuario.");
+        
         return null;
     }
 
@@ -185,7 +181,7 @@ export const borrarRegistro = async (idRegistro) => {
     const requestOptions = {
         method: "DELETE",
         headers: myHeaders,
-        redirect: "follow", 
+        redirect: "follow",
     };
 
     try {
@@ -194,14 +190,11 @@ export const borrarRegistro = async (idRegistro) => {
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
-
         const result = await response.json();
-        console.log("Registro eliminado:", result);
 
         return result;
     } catch (error) {
-        console.error("Error en la petición:", error);
+
         return null;
     }
 };
-

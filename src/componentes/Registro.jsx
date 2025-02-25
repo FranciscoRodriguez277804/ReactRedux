@@ -6,18 +6,19 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import {registrarUsuario}  from "../service/apiService.js"
+import toast from "react-hot-toast";
+import { useNavigate } from 'react-router-dom';
 
 const Registro = ({ setIsRegistering, setIsLoggedIn }) => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [usuario, setUsuario] = useState("");
     const [password, setPassword] = useState("");
     const [pais, setPais] = useState("");
     const [deshabilitado, setDeshabilitado] = useState(true);
 
-
-    // Verifica si todos los campos están completos
     useEffect(() => {
         setDeshabilitado(!(usuario.trim() && password.trim() && pais.trim()));
     }, [usuario, password, pais]);
@@ -29,23 +30,19 @@ const Registro = ({ setIsRegistering, setIsLoggedIn }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = { usuario, password, pais };
-
         try {
             const datos =  await registrarUsuario(data);
-            console.log('datos.apiKey', datos.apiKey);
             let localStorage = window.localStorage;
             localStorage.setItem("apiKey", datos.apiKey);
             localStorage.setItem("id", datos.id);
             localStorage.setItem("usuario", usuario)
-            console.log("✅ Login exitoso!");
-            dispatch(loginSuccess({ usuario, password, token: datos.token })); // Llama a la acción loginSuccess
+            dispatch(loginSuccess({ usuario, password, token: datos.token }));
             setIsLoggedIn(true); // Cambia el estado de isLoggedIn a true
             navigate("/dashboard");
 
         } catch (error) {
-            console.log("❌ Error en la conexión", error);
-            setMensajeError(error.message)
-
+            toast.error("Error al registrar el usuario");
+        
         }
     };
 

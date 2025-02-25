@@ -4,8 +4,8 @@ import Registro from './Registro';
 import Dashboard from './Dashboard';
 
 const Contenido = () => {
-  const [isRegistering, setIsRegistering] = useState(false); // Estado para cambiar entre Login y Registro
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Estado para rastrear si el usuario ha iniciado sesión
+  const [isRegistering, setIsRegistering] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   return (
     <div>

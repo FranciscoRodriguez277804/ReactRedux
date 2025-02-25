@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { obtenerRegistros, borrarRegistro, agregarRegistro as agregarRegistroAPI , obtenerActividades } from "../service/apiService";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 const registrosSlice = createSlice({
   name: "registros",
@@ -39,7 +40,6 @@ const registrosSlice = createSlice({
       state.tiempoAyer = state.lista.reduce((acumulador, registro) => {
         const fechaRegistro = moment(registro.fecha);
         const fechaAyer = moment().subtract(1, "days").startOf("day"); // Fecha de ayer
-
         return fechaRegistro.isSame(fechaAyer, "day")
           ? acumulador + registro.tiempo
           : acumulador;
@@ -53,35 +53,38 @@ const registrosSlice = createSlice({
   },
 });
 
-// Exportar acciones
+
 export const { setRegistros, agregarRegistroState, eliminarRegistro, todasLasActividades , actualizarTiempoDiario , actualizarTiempoAyer , resetearEstado } = registrosSlice.actions;
 
 // Función para cargar registros desde la API
 export const cargarRegistros = () => async (dispatch) => {
   try {
     const data = await obtenerRegistros();
-    console.log(data)
+ 
     if (data.codigo === 200) {
       dispatch(setRegistros(data.registros));
     } else {
-      console.error("Error al cargar registros:", data.mensaje);
+      toast.error("Error al cargar registros:", data.mensaje)
     }
   } catch (error) {
-    console.error("Error en la API:", error);
+    throw new Error(error.message || "Hubo un error");
+  
   }
 };
 
 // Función para agregar un registro en la API y en Redux
 export const agregarRegistroAsync = (nuevoRegistro) => async (dispatch) => {
   try {
-    const resultado = await agregarRegistroAPI(nuevoRegistro); // 🔹 Usa el alias "agregarRegistroAPI"
+    const resultado = await agregarRegistroAPI(nuevoRegistro); // "agregarRegistroAPI"
     if (resultado.codigo === 200) {
-      dispatch(agregarRegistroState(resultado.registro)); // 🔹 Usa la acción renombrada
+      dispatch(agregarRegistroState(resultado.registro)); 
+      dispatch(cargarRegistros());
     } else {
-      console.error("Error al agregar:", resultado?.mensaje);
+      toast.error("Error al agregar:", resultado?.mensaje)
+  
     }
   } catch (error) {
-    console.error("Error en la API:", error);
+    throw new Error(error.message || "Hubo un error");
   }
 };
 
@@ -92,28 +95,28 @@ export const eliminarRegistroAsync = (idRegistro) => async (dispatch) => {
     if (resultado?.codigo === 200) {
       dispatch(eliminarRegistro(idRegistro));
     } else {
-      console.error("Error al eliminar:", resultado?.mensaje);
+      toast.error("Error al cargar registros:", data.mensaje)
     }
   } catch (error) {
-    console.error("Error en la API:", error);
+    throw new Error(error.message || "Hubo un error");
   }
 };
 
 export const cargarActividades = () => async (dispatch) => {
   try {
     const data = await obtenerActividades();
-    console.log(data)
+
     if (data.codigo === 200) {
       dispatch(todasLasActividades(data.actividades));
     } else {
-      console.error("Error al cargar actividades:", data.mensaje);
+      toast.error("Error al agregar:", resultado?.mensaje)
     }
   } catch (error) {
-    console.error("Error en la API:", error);
+    throw new Error(error.message || "Hubo un error");
   }
 };
 
 
-// Exportar el reducer
+
 export default registrosSlice.reducer;
 
