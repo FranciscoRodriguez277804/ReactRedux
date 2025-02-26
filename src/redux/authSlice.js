@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import toast from "react-hot-toast";
 
 const authSlice = createSlice({
     name: 'auth',
@@ -9,6 +10,10 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             state.password = action.payload.password;
             state.isAuthenticated = true;
+            toast(`Bienvenido ${state.user}`, {
+                icon: '👋',
+              });
+
         },
         logout: (state) => {
             state.user = null;

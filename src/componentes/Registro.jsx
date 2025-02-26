@@ -8,6 +8,9 @@ import Card from 'react-bootstrap/Card';
 import {registrarUsuario}  from "../service/apiService.js"
 import toast from "react-hot-toast";
 import { useNavigate } from 'react-router-dom';
+import { setCargando } from "../redux/feactures/sliceSpinner.js";
+import Spinner from 'react-bootstrap/Spinner';
+import { useSelector } from 'react-redux';
 
 const Registro = ({ setIsRegistering, setIsLoggedIn }) => {
 
@@ -26,12 +29,19 @@ const Registro = ({ setIsRegistering, setIsLoggedIn }) => {
     const handleUsuarioChange = (e) => setUsuario(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
     const handlePaisChange = (e) => setPais(e.target.value);
+    const isCargando = useSelector((state) => state.spinner);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = { usuario, password, pais };
         try {
             const datos =  await registrarUsuario(data);
+            dispatch(setCargando(true));
+
+            if(isCargando){
+                <Spinner animation="border" variant="primary" />
+            }
+
             let localStorage = window.localStorage;
             localStorage.setItem("apiKey", datos.apiKey);
             localStorage.setItem("id", datos.id);
@@ -43,6 +53,8 @@ const Registro = ({ setIsRegistering, setIsLoggedIn }) => {
         } catch (error) {
             toast.error("Error al registrar el usuario");
         
+        } finally {
+            dispatch(setCargando(false));
         }
     };
 
